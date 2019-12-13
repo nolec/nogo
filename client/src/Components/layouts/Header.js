@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
+import { logout } from "../../actions/auth";
 
 const HeaderH = styled.header`
   display: flex;
@@ -57,6 +59,9 @@ const Slink = styled(Link)`
   margin: 0 0.25rem;
 `;
 const Header = props => {
+  const dispatch = useDispatch();
+  const auth = useSelector(state => state.auth);
+
   return (
     <HeaderH>
       <ListSection>
@@ -73,12 +78,20 @@ const Header = props => {
         </List>
       </ListSection>
       <IntroSection>
-        <AuthBox>
-          <>
-            <LoginBtn to="/login">로그인</LoginBtn>
-            <JoinBtn to="/register">회원가입</JoinBtn>
-          </>
-        </AuthBox>
+        {auth.loading ? null : (
+          <AuthBox>
+            {auth.isAuthenticated && auth.isAuthenticated ? (
+              <LogoutBtn to="/" onClick={() => dispatch(logout())}>
+                로그아웃
+              </LogoutBtn>
+            ) : (
+              <>
+                <LoginBtn to="/login">로그인</LoginBtn>
+                <JoinBtn to="/register">회원가입</JoinBtn>
+              </>
+            )}
+          </AuthBox>
+        )}
       </IntroSection>
     </HeaderH>
   );

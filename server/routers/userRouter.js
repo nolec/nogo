@@ -77,18 +77,20 @@ userRouter.post(
   "/login",
   [
     check("email", "이메일을 제대로 입력해주세요").isEmail(),
-    check("password", "비밀번호를 입력해주세요").exists()
+    check("password", "비밀번호를 입력해주세요")
+      .not()
+      .isEmpty()
   ],
   async (req, res) => {
     let errors = validationResult(req);
     console.log(errors);
     //--------------------------------------------------------
     //유효값 검사
-    if (errors.errors.length > 0) {
+    if (!errors.isEmpty()) {
       return res.status(400).json({ Errors: errors.array() });
     }
+    const { email, password } = req.body;
     try {
-      const { email, password } = req.body;
       //--------------------------------------------------------
       //등록된 계정 확인
       let user = await User.findOne({ email });

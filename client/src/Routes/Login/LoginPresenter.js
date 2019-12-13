@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import Alert from "../../Components/layouts/Alert";
 
 const Container = styled.div`
   width: 100%;
@@ -69,7 +70,15 @@ const Signup = styled(Link)`
   align-items: center;
 `;
 
-const LoginPresenter = ({ handleSubmit, handleChange, ...formData }) => {
+const LoginPresenter = ({
+  isAuthenticated,
+  handleSubmit,
+  handleChange,
+  ...formData
+}) => {
+  if (isAuthenticated) {
+    return <Redirect to="/" />;
+  }
   return (
     <Container>
       <LoginBox>
@@ -101,6 +110,7 @@ const LoginPresenter = ({ handleSubmit, handleChange, ...formData }) => {
           <Submit type="submit" value="로그인" onClick={e => handleSubmit(e)} />
           <Signup to="/register">회원등록</Signup>
         </Form>
+        <Alert />
       </LoginBox>
     </Container>
   );

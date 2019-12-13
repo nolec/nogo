@@ -13,6 +13,7 @@ const RegisterContainer = () => {
   });
 
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
   let { name, email, password, password2 } = formData;
   const handleSubmit = e => {
@@ -30,6 +31,7 @@ const RegisterContainer = () => {
   };
   return (
     <RegisterPresenter
+      isAuthenticated={isAuthenticated}
       {...formData}
       handleChange={handleChange}
       handleSubmit={handleSubmit}

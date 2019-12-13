@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Alert from "../../Components/layouts/Alert";
 
 const Container = styled.div`
@@ -61,7 +61,15 @@ const Password = styled.input``;
 const Email = styled.input``;
 const Submit = styled.input``;
 
-const RegisterPresenter = ({ handleSubmit, handleChange, ...formData }) => {
+const RegisterPresenter = ({
+  isAuthenticated,
+  handleSubmit,
+  handleChange,
+  ...formData
+}) => {
+  if (isAuthenticated) {
+    return <Redirect to="/" />;
+  }
   return (
     <Container>
       <JoinBox>
@@ -76,6 +84,7 @@ const RegisterPresenter = ({ handleSubmit, handleChange, ...formData }) => {
               placeholder="NAME"
               value={formData.name}
               onChange={e => handleChange(e)}
+              required
             />
           </div>
           <div>
@@ -85,6 +94,7 @@ const RegisterPresenter = ({ handleSubmit, handleChange, ...formData }) => {
               placeholder="E-mail"
               value={formData.email}
               onChange={e => handleChange(e)}
+              required
             />
           </div>
           <div>
