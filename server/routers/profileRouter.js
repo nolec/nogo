@@ -1,4 +1,6 @@
 import express from "express";
+import request from "request";
+import { github } from "../config/dev";
 import { check, validationResult } from "express-validator";
 import Profile from "../models/Profile";
 import auth from "../middlewares/auth";
@@ -255,6 +257,26 @@ profileRouter.delete("/education/:edu_id", auth, async (req, res) => {
   } catch (error) {
     console.error(error.message);
     res.status(500).json("Server Error--education-delete");
+  }
+});
+profileRouter.get("/github/:username", (req, res) => {
+  try {
+    const options = {
+      uri: `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc&client_id=${github.clientId}&client_secret=${github.secret}`,
+      method: "GET",
+      headers: { "user-agent": "node.js" }
+    };
+    request(options, (err, response, body) => {
+      if (err) console.error(error);
+
+      if (response.statusCode !== 200) {
+        return res.status(404).json({ msg: "Github 프로필이 없습니다." });
+      }
+      res.json(JSON.parse(body));
+    });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json("Server Error--github");
   }
 });
 export default profileRouter;
