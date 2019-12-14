@@ -4,7 +4,8 @@
   "description": "nogo fighting",
   "main": "app.js",
   "scripts": {
-    "frontend" : "npm start --prefix client",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "frontend": "npm start --prefix client",
     "backend": "nodemon --exec babel-node server/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

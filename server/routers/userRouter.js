@@ -5,6 +5,7 @@ import gravatar from "gravatar";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import authMiddleware from "../middlewares/auth";
+import Profile from "../models/Profile";
 
 const userRouter = express.Router();
 userRouter.get("/auth", authMiddleware, async (req, res) => {
@@ -127,6 +128,7 @@ userRouter.post(
 userRouter.delete("/delete", authMiddleware, async (req, res) => {
   try {
     await User.findOneAndRemove({ _id: req.user });
+    await Profile.findOneAndRemove({ user: req.user });
     res.status(200).json({ msg: "회원을 탈퇴하였습니다." });
   } catch (error) {
     console.log(error.message);
