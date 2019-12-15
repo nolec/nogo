@@ -8,6 +8,7 @@ import path from "path";
 import "./db";
 import userRouter from "./routers/userRouter";
 import profileRouter from "./routers/profileRouter";
+import postRouter from "./routers/postRouter";
 
 //====================================================
 const app = express();
@@ -25,9 +26,9 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 //====================================================
-// app.use("/api/auth");
 app.use("/api/users", userRouter);
 app.use("/api/profile", profileRouter);
+app.use("/api/post", postRouter);
 //====================================================
 
 const port = process.env.PORT || 5000;

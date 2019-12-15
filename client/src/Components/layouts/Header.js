@@ -12,9 +12,7 @@ const HeaderH = styled.header`
   padding: 0 2rem;
   z-index: 1;
   width: 100%;
-  height: 80px;
-  border-bottom: 1px solid #6a6a6a;
-  border-top: 1px solid #6a6a6a;
+  height: 70px;
   background-color: #2f3237;
   justify-content: space-between;
 `;
@@ -44,10 +42,13 @@ const List = styled.ul`
   height: 100%;
 `;
 const Item = styled.li`
+  border-radius: 5px;
   width: 80px;
   height: 100%;
   ${props =>
-    props.current ? { backgroundColor: "black", color: "#fff" } : "transparent"}
+    props.current
+      ? { backgroundColor: "black", color: "#fff" }
+      : "transparent"};
 `;
 const Slink = styled(Link)`
   display: flex;
@@ -69,11 +70,8 @@ const Header = props => {
           <Item current={props.location.pathname === "/"}>
             <Slink to="/">자랑툰</Slink>
           </Item>
-          <Item>
-            <Slink to="/">커밍쑨</Slink>
-          </Item>
-          <Item>
-            <Slink to="/">커밍쑨</Slink>
+          <Item current={props.location.pathname === "/profile"}>
+            <Slink to="/profile">프로필</Slink>
           </Item>
         </List>
       </ListSection>
